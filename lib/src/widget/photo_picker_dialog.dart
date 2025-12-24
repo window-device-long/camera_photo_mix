@@ -200,19 +200,15 @@ class _PhotoPickerDialogState extends State<PhotoPickerDialog> {
   }
 
   Widget _buildAssetItem(AssetEntity asset) {
-    return AssetThumbnailWithOriginLoader(
+    return AssetThumbnailWithFallback(
       asset: asset,
-      onOriginReady: (file) {
-        if (!mounted) return;
-
+      onResolved: (file) {
         Navigator.of(
           context,
           rootNavigator: true,
         ).pop(GalleryResult(file: file));
       },
-      onTap: () {
-        widget.onPickStarted?.call();
-      },
+      onTapStarted: () => widget.onPickStarted,
     );
   }
 }
